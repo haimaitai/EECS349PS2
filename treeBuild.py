@@ -1,6 +1,5 @@
 import math
 import operator
-"""import chi"""
 
 class Leaf:
 	def __init__(self, class_label):
@@ -68,28 +67,17 @@ class branch:
 
 class treeBuilder:
 	def __init__(self):
-		"""figure this out"""
-		"""self.chi = chi.Chi() """
 		self.stop = False
 		self.bestContinuous = False
 		self.numSplits = 0
 
 	def create(self, examples, atts, prune=False):
-		"""create the full decision tree"""
-		"""attributes = atts.keys()
-		for j in attributes[:]:
-			csplits = self.split_on_class(examples,j)
-			mode0 = self.attr_mode(csplits,0)
-			mode1 = self.attr_mode(csplits,1)
-			mode2 = self.attr_mode(csplits,2)
-			for a in atts:
-				if a == "?":
-					print "? found"""
+		"""create the full decision tree by recursing DTL function"""
 		return self.DTL(examples, atts.keys(), examples, atts, prune)
 
 	def DTL(self, examples, attributes, parents, attr_vals, prune):
 		if len(examples) == 0:
-			""" return default? define default?"""
+			""" return default, mode of overall set"""
 			l = Leaf(self.mode(parents))
 			return l
 		elif self.sameClassification(examples):
@@ -121,7 +109,7 @@ class treeBuilder:
 				for value in values:
 					d_tree.add_child(value, Leaf(self.mode(examples)))
 				if prune and d_tree.all_children_leaves():
-					"""prune"""
+					"""prune... lol"""
 			
 			return d_tree
 	
@@ -137,6 +125,9 @@ class treeBuilder:
 		return splits
 
 	def continuous_split(self, examples, best):
+		""" Y U NO WORKING SORTED"""
+		
+		""" PERO LIKE Y"""
 		ex_sort = sorted(examples, key=lambda ex: ex[best])
 		print "best: " + repr(best)
 		print "examples"
@@ -183,8 +174,7 @@ class treeBuilder:
 		return jk
 
 	def mode(self, examples):
-		"""returns the mode class label for examples"""
-		"""edit variable names"""
+		"""returns the mode classification for examples"""
 		majority = examples[0][1]
 		counts = {majority: 0}
 		for row in examples:
@@ -223,9 +213,10 @@ class treeBuilder:
 		self.lastChange = best_change
 
 		if best >2 and best <8:
-			"""this is a nominal attribute"""
+			"""this is a nominal attribute so you can do a normal split"""
 			self.bestContinuous = False
 		else:
+			"""womp womp, this is a continuous attribute; split on a range"""
 			self.bestContinuous = True
 
 		return best
